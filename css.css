@@ -1,5 +1,9 @@
 /* is there a more efficient way of writing layout using id names? */
 
+.button:hover {
+  cursor: pointer;
+}
+
 #display {
   grid-area: display;
 }
