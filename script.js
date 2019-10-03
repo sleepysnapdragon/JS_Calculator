@@ -10,6 +10,7 @@ var six = document.getElementById("six");
 var seven = document.getElementById("seven");
 var eight = document.getElementById("eight");
 var nine = document.getElementById("nine");
+var decimal = document.getElementById("decimal");
 var add = document.getElementById("add");
 var subtract = document.getElementById("subtract");
 var multiply = document.getElementById("multiply");
@@ -19,221 +20,102 @@ var equals = document.getElementById("equals");
 var calculation = [];
 var displayValue = [];
 
-//add a number button class in the html and create vars with a loop?
+zero.addEventListener("click", () => {
+  pressDigit(0);
+});
+one.addEventListener("click", () => {
+  pressDigit(1);
+});
+two.addEventListener("click", () => {
+  pressDigit(2);
+});
+three.addEventListener("click", () => {
+  pressDigit(3);
+});
+four.addEventListener("click", () => {
+  pressDigit(4);
+});
+five.addEventListener("click", () => {
+  pressDigit(5);
+});
+six.addEventListener("click", () => {
+  pressDigit(6);
+});
+seven.addEventListener("click", () => {
+  pressDigit(7);
+});
+eight.addEventListener("click", () => {
+  pressDigit(8);
+});
+nine.addEventListener("click", () => {
+  pressDigit(9);
+});
 
-//try and create something more efficient like an array of objects?
+decimal.addEventListener("click", pressDecimal);
 
-/* can't pass value of each object into function (or need to do something complicated to do so (this/bind?))
-for (var i = 0; i < numberButtons.length; i++) {
-    numberButtons[i].element.addEventListener("click", FUNCTION
-  );
-}
-*/
+add.addEventListener("click", () => {
+  pressOperator("+");
+});
+subtract.addEventListener("click", () => {
+  pressOperator("-");
+});
+multiply.addEventListener("click", () => {
+  pressOperator("*");
+});
+divide.addEventListener("click", () => {
+  pressOperator("/");
+});
 
-zero.addEventListener("click", pressZero);
-one.addEventListener("click", pressOne);
-two.addEventListener("click", pressTwo);
-three.addEventListener("click", pressThree);
-four.addEventListener("click", pressFour);
-five.addEventListener("click", pressFive);
-six.addEventListener("click", pressSix);
-seven.addEventListener("click", pressSeven);
-eight.addEventListener("click", pressEight);
-nine.addEventListener("click", pressNine);
-
-add.addEventListener("click", pressAdd);
-subtract.addEventListener("click", pressSubtract);
-multiply.addEventListener("click", pressMultiply);
-divide.addEventListener("click", pressDivide);
 equals.addEventListener("click", pressEquals);
 
 clear.addEventListener("click", reset);
 
-function pressZero() {
+//this value indicates whether to also add a decimal before the next number: pressing decimal button makes it true
+var decimalToggle = false;
+
+function pressDigit(num) {
   if (
     calculation.length !== 0 &&
     typeof calculation[calculation.length - 1] == "number"
   ) {
-    displayValue.push(0);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 0;
+    displayValue.push(num);
+    if (!decimalToggle) {
+      calculation[calculation.length - 1] =
+        calculation[calculation.length - 1] * 10 + num;
+    } else {
+      calculation[calculation.length - 1] =
+        calculation[calculation.length - 1] + num / 10;
+      decimalToggle = false;
+    }
   } else {
-    displayValue = [0];
-    calculation.push(0);
+    //may need to add something here for decimal?
+    displayValue = [num];
+    calculation.push(num);
   }
   display.innerHTML = displayValue.join("");
   console.log(calculation);
 }
 
-function pressOne() {
+function pressOperator(op) {
+  displayValue = [op];
+  display.innerHTML = displayValue.join("");
+  calculation.push(op);
+  console.log(calculation);
+}
+
+function pressDecimal() {
   if (
     calculation.length !== 0 &&
     typeof calculation[calculation.length - 1] == "number"
   ) {
-    displayValue.push(1);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 1;
+    displayValue.push(".");
+    decimalToggle = true;
   } else {
-    displayValue = [1];
-    calculation.push(1);
+    //fix this: either make it an error or get it to push a leading 0
+    displayValue = ["."];
+    calculation.push(".");
   }
   display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressTwo() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(2);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 2;
-  } else {
-    displayValue = [2];
-    calculation.push(2);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressThree() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(3);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 3;
-  } else {
-    displayValue = [3];
-    calculation.push(3);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressFour() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(4);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 4;
-  } else {
-    displayValue = [4];
-    calculation.push(4);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressFive() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(5);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 5;
-  } else {
-    displayValue = [5];
-    calculation.push(5);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressSix() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(6);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 6;
-  } else {
-    displayValue = [6];
-    calculation.push(6);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressSeven() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(7);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 7;
-  } else {
-    displayValue = [7];
-    calculation.push(7);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressEight() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(8);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 8;
-  } else {
-    displayValue = [8];
-    calculation.push(8);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressNine() {
-  if (
-    calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
-  ) {
-    displayValue.push(9);
-    calculation[calculation.length - 1] =
-      calculation[calculation.length - 1] * 10 + 9;
-  } else {
-    displayValue = [9];
-    calculation.push(9);
-  }
-  display.innerHTML = displayValue.join("");
-  console.log(calculation);
-}
-
-function pressAdd() {
-  displayValue = ["+"];
-  display.innerHTML = displayValue.join("");
-  calculation.push("+");
-  console.log(calculation);
-}
-
-function pressSubtract() {
-  displayValue = ["-"];
-  display.innerHTML = displayValue.join("");
-  calculation.push("-");
-  console.log(calculation);
-}
-
-function pressMultiply() {
-  displayValue = ["*"];
-  display.innerHTML = displayValue.join("");
-  calculation.push("*");
-  console.log(calculation);
-}
-
-function pressDivide() {
-  displayValue = ["/"];
-  display.innerHTML = displayValue.join("");
-  calculation.push("/");
   console.log(calculation);
 }
 
