@@ -1,4 +1,7 @@
 /* is there a more efficient way of writing layout using id names? */
+body {
+  font-family: "Orbitron", sans-serif;
+}
 
 .button:hover {
   cursor: pointer;
@@ -6,6 +9,9 @@
 
 #display {
   grid-area: display;
+  text-align: right;
+  background-color: #777777;
+  color: #ffffff;
 }
 #clear {
   grid-area: clear;
@@ -69,6 +75,10 @@
     "one two three add"
     "zero zero decimal equals";
   grid-gap: 10px;
-  background-color: #2196f3;
+  background-color: #cccccc;
   padding: 10px;
+  text-align: center;
+  width: 300px;
+  height: 400px;
+  align-items: center;
 }
