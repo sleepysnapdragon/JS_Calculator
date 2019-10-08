@@ -1,17 +1,38 @@
 /* is there a more efficient way of writing layout using id names? */
+
+html {
+  height: 100%;
+}
+
 body {
   font-family: "Orbitron", sans-serif;
+  background-image: url("./background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button {
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button:hover {
   cursor: pointer;
+  background-color: #eeeeee;
+  border-radius: 10%;
 }
 
 #display {
+  display: inline-flex;
+  align-items: center;
   grid-area: display;
-  text-align: right;
+  justify-content: flex-end;
   background-color: #777777;
   color: #ffffff;
+  height: 100%;
+  padding: 0px 5px;
 }
 #clear {
   grid-area: clear;
@@ -81,4 +102,5 @@ body {
   width: 300px;
   height: 400px;
   align-items: center;
+  margin: 0 auto;
 }

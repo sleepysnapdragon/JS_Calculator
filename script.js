@@ -21,7 +21,7 @@ var calculation = [];
 var displayValue = [];
 
 zero.addEventListener("click", () => {
-  pressDigit(0);
+  pressZero();
 });
 one.addEventListener("click", () => {
   pressDigit(1);
@@ -72,6 +72,15 @@ clear.addEventListener("click", reset);
 
 //this value indicates whether to also add a decimal before the next number: pressing decimal button makes it true
 var decimalToggle = false;
+var decimalPlaces = 0;
+
+function pressZero() {
+  if (calculation[calculation.length - 1] == 0) {
+    return;
+  } else {
+    pressDigit(0);
+  }
+}
 
 function pressDigit(num) {
   if (
@@ -83,9 +92,10 @@ function pressDigit(num) {
       calculation[calculation.length - 1] =
         calculation[calculation.length - 1] * 10 + num;
     } else {
+      decimalPlaces++;
       calculation[calculation.length - 1] =
-        calculation[calculation.length - 1] + num / 10;
-      decimalToggle = false;
+        calculation[calculation.length - 1] + num / Math.pow(10, decimalPlaces);
+      //problem here: for every place it goes after decimal it should be divided by bigger factor of 10
     }
   } else {
     //may need to add something here for decimal?
@@ -97,6 +107,8 @@ function pressDigit(num) {
 }
 
 function pressOperator(op) {
+  decimalToggle = false;
+  decimalPlaces = 0;
   displayValue = [op];
   display.innerHTML = displayValue.join("");
   calculation.push(op);
@@ -106,28 +118,32 @@ function pressOperator(op) {
 function pressDecimal() {
   if (
     calculation.length !== 0 &&
-    typeof calculation[calculation.length - 1] == "number"
+    typeof calculation[calculation.length - 1] == "number" &&
+    decimalToggle == false
   ) {
     displayValue.push(".");
     decimalToggle = true;
   } else {
+    decimalToggle = false;
     //fix this: either make it an error or get it to push a leading 0
-    displayValue = ["."];
-    calculation.push(".");
   }
   display.innerHTML = displayValue.join("");
   console.log(calculation);
 }
 
 function pressEquals() {
+  decimalToggle = false;
+  decimalPlaces = 0;
   var result = eval(calculation.join(""));
   displayValue = result;
   display.innerHTML = displayValue;
-  calculation = [];
+  calculation = [result];
 }
 
 function reset() {
   displayValue = ["0"];
   display.innerHTML = displayValue.join("");
+  decimalToggle = false;
+  decimalPlaces = 0;
   calculation = [];
 }
