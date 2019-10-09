@@ -81,9 +81,15 @@ body {
 }
 #decimal {
   grid-area: decimal;
+  font-weight: bold;
+  font-size: 20pt;
 }
 #equals {
   grid-area: equals;
+}
+
+#overall-container {
+  transform: translateY(40%);
 }
 
 .grid-container {

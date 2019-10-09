@@ -72,6 +72,7 @@ clear.addEventListener("click", reset);
 
 //this value indicates whether to also add a decimal before the next number: pressing decimal button makes it true
 var decimalToggle = false;
+//this is to understand how many decimal places a new number is at
 var decimalPlaces = 0;
 
 function pressZero() {
@@ -95,7 +96,6 @@ function pressDigit(num) {
       decimalPlaces++;
       calculation[calculation.length - 1] =
         calculation[calculation.length - 1] + num / Math.pow(10, decimalPlaces);
-      //problem here: for every place it goes after decimal it should be divided by bigger factor of 10
     }
   } else {
     //may need to add something here for decimal?
@@ -111,7 +111,15 @@ function pressOperator(op) {
   decimalPlaces = 0;
   displayValue = [op];
   display.innerHTML = displayValue.join("");
-  calculation.push(op);
+  console.log(
+    typeof calculation[calculation.length - 1] == "string",
+    calculation[calculation.length - 1] !== "-"
+  );
+  if (typeof calculation[calculation.length - 1] == "string") {
+    calculation[calculation.length - 1] = op;
+  } else {
+    calculation.push(op);
+  }
   console.log(calculation);
 }
 
