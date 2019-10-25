@@ -75,6 +75,9 @@ var decimalToggle = false;
 //this is to understand how many decimal places a new number is at
 var decimalPlaces = 0;
 
+//to help understand what to do if multiple operators are entered
+var enteringOperators = false;
+
 function pressZero() {
   if (calculation[calculation.length - 1] == 0) {
     return;
@@ -98,7 +101,12 @@ function pressDigit(num) {
         calculation[calculation.length - 1] + num / Math.pow(10, decimalPlaces);
     }
   } else {
-    //may need to add something here for decimal?
+    if (enteringOperators == false) {
+      //do nothing and continue to lines after if block ?how to write this better
+    } else {
+      enteringOperators = false;
+      selectOperator();
+    }
     displayValue = [num];
     calculation.push(num);
   }
@@ -106,24 +114,50 @@ function pressDigit(num) {
   console.log(calculation);
 }
 
+function selectOperator() {
+  var currentOperators = calculation[calculation.length - 1].split("");
+  if (currentOperators.length == 1) {
+    //does this cause unintended sideeffects? don't think so
+    console.log("only one operator anyway");
+    return;
+  } else {
+    if (currentOperators[currentOperators.length - 1] == "-") {
+      //this probably doesn't make any sense
+      console.log("keep minus and preceding op");
+      calculation[calculation.length - 1] = [
+        currentOperators[currentOperators.length - 2],
+        currentOperators[currentOperators.length - 1]
+      ].join("");
+    } else {
+      console.log("just keep last op");
+      calculation[calculation.length - 1] =
+        currentOperators[currentOperators.length - 1];
+    }
+  }
+}
+
 function pressOperator(op) {
   decimalToggle = false;
   decimalPlaces = 0;
   displayValue = [op];
   display.innerHTML = displayValue.join("");
-  console.log(
-    typeof calculation[calculation.length - 1] == "string",
-    calculation[calculation.length - 1] !== "-"
-  );
-  if (typeof calculation[calculation.length - 1] == "string") {
-    calculation[calculation.length - 1] = op;
-  } else {
+  //push it to array if prev there was a number, concat it to last element if that was an operator
+
+  if (enteringOperators == false) {
+    //ie this is the first operator to be entered after some numbers
     calculation.push(op);
+  } else {
+    calculation[calculation.length - 1] = [
+      calculation[calculation.length - 1],
+      op
+    ].join("");
   }
+  enteringOperators = true;
   console.log(calculation);
 }
 
 function pressDecimal() {
+  enteringOperators = false;
   if (
     calculation.length !== 0 &&
     typeof calculation[calculation.length - 1] == "number" &&
@@ -140,6 +174,7 @@ function pressDecimal() {
 }
 
 function pressEquals() {
+  enteringOperators = false;
   decimalToggle = false;
   decimalPlaces = 0;
   var result = eval(calculation.join(""));
@@ -149,6 +184,7 @@ function pressEquals() {
 }
 
 function reset() {
+  enteringOperators = false;
   displayValue = ["0"];
   display.innerHTML = displayValue.join("");
   decimalToggle = false;
